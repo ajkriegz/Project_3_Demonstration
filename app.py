@@ -8,7 +8,7 @@ import numpy as np
 from flask import Flask, render_template
 import psycopg2
 
-
+from config import password
 
 
 
@@ -27,7 +27,7 @@ def index():
     # Connect to the database
     conn = psycopg2.connect(database="flask_db",
                             user="postgres",
-                            password="Papa1992!",
+                            password=password,
                             host="localhost", port="5432")
   
     # create a cursor
