@@ -4,19 +4,24 @@
 # https://www.geeksforgeeks.org/making-a-flask-app-using-a-postgresql-database/
 
 # Import your dependencies
-import numpy as np
-from flask import Flask, render_template
+import os
+from flask import Flask, render_template, jsonify
 import psycopg2
 
 from config import password
-
-
 
 #################################################
 # Flask Setup
 #################################################
 app = Flask(__name__)
 
+# Connect to the database
+def get_db_connection():
+    conn = psycopg2.connect(database="flask_db",
+                            user="postgres",
+                            password=password,
+                            host="localhost", port="5432")
+    return conn
 
 #################################################
 # Flask Routes
@@ -24,12 +29,12 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    # Connect to the database
-    conn = psycopg2.connect(database="flask_db",
-                            user="postgres",
-                            password=password,
-                            host="localhost", port="5432")
-  
+    return render_template('index.html')
+
+@app.route('/data')
+def data():
+    
+    conn = get_db_connection()
     # create a cursor
     cur = conn.cursor()
   
@@ -42,7 +47,8 @@ def index():
     # close the cursor and connection
     cur.close()
     conn.close()
-    return render_template('index.html', data=data)
+    
+    return jsonify(data=data)
 
 if __name__ == "__main__":
     app.run(debug=True)
