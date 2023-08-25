@@ -23,12 +23,45 @@ let showObj = function() {
     };
 }
 
+// Create an empty list or object to hold beer data
+function buildCharts(beerData) {
+    var beerList = [];
+    for (let variable in beer) {
+        for (let i = 0; i < beer[variable].length; i++) {
+            // console.log(beer[x][i][0])
+            beerList.push(beer[variable][i][0]); // Change 0 to 1 to save the beer name itself
+
+    }};
+    // console.log(beerList[0])
+    // console.log(beerList[3100])
+    
+    // Count beer names with incrementing numbers if the previous value matches
+
+    let barData = [{
+        y: beerData,
+        x: beerData,
+        type: "bar",
+        orientation: "h"
+    }];
+
+    let barLayout = {
+        title: "Counting Types of Beer in Our Database",
+        margin: { t: 30, l: 150 }
+      };
+
+    Plotly.newPlot("bar", barData, barLayout)
+}
+
+// Create a function that loops through and appends the data to a variable to
+
+
 d3.json('http://127.0.0.1:5000/data')
 .then( data => {
-    console.log(data); // {data: Array(3197)}
+    // console.log(data); // {data: Array(3197)}
     beer = data;
-    console.log(beer) // {data: Array(3197)}
-    showObj();
+    // console.log(beer) // {data: Array(3197)}
+    // showObj();
+    buildCharts();
 });
 
 // fetch also works
